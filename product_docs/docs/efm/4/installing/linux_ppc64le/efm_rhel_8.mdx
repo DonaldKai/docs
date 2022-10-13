@@ -1,6 +1,8 @@
 ---
-navTitle: CentOS 7
-title: Installing Failover Manager on CentOS 7 x86_64
+navTitle: RHEL 8
+title: Installing Failover Manager on RHEL 8 ppc64le
+redirects: 
+ - /efm/4/03_installing_efm/ibm_power_ppc64le/efm4_rhel8_ppcle
 # This topic is generated from templates. If you have feedback on it, instead of
 # editing the page and creating a pull request, please enter a GitHub issue and
 # the documentation team will update the templates accordingly.
@@ -22,14 +24,21 @@ Before you begin the installation process:
 
   ```shell
   # Install the EPEL repository:
-  sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+  sudo dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 
+  # Refresh the cache:
+  sudo dnf makecache
+  # Enable additional repositories to resolve dependencies:
+  ARCH=$( /bin/arch ) subscription-manager repos --enable "codeready-builder-for-rhel-8-${ARCH}-rpms"
+
+  #  Disable the built-in PostgreSQL module:
+  sudo dnf -qy module disable postgresql
   ```
 
 ## Install the package
 
 ```shell
-sudo yum -y install edb-efm<4x>
+sudo dnf -y install edb-efm<4x>
 ```
 
 Where `<4x>` is the version of Failover Manager that you are installing. For example, if you are installing version 4.0, the package name would be `edb-efm40`.
